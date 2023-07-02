@@ -7,7 +7,7 @@ This is a monorepo starter powered by Turborepo. Versioning and package publishi
 Run the following command:
 
 ```sh
-npm i
+pnpm install
 ```
 
 ## What's inside?
