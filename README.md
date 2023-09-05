@@ -10,6 +10,17 @@ Run the following command:
 pnpm install
 ```
 
+## Get started
+
+- Replace `@teddy` with `@your-prefix` everywhere
+- Create an environment in GitHub
+- Add the following secrets:
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
+  - AWS_REGION
+  - AWS_LAMBDA_REPOSITORY_BUCKET_NAME
+  - PAT
+
 ## What's inside?
 
 This Turborepo includes the following:

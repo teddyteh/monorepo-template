@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - change-this-to-main
+      - change-this-to-your-default-branch
 
 jobs:
   release:
@@ -12,27 +12,30 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-
-      - name: Setup Node.js 16.x
-        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      # - name: Setup Node.js 16.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16.x
 
-      - name: Install Dependencies
-        run: pnpm install
+      # - name: Install pnpm
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: 8.6.5
+      #     run_install: false
 
       - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1.4.5
-        with:
-          # This expects you to have a script called release which does a build for your apps and calls changeset publish
-          publish: pnpm release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
-      - name: Publish
-        if: steps.changesets.outputs.hasChangesets == 'true'
-        run: echo "Publishing completed successfully!"
+      - name: Check Version Changes and Create GitHub Releases
+        id: release
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        uses: ./.github/template/release
+        with:
+          token: ${{ secrets.PAT }}
